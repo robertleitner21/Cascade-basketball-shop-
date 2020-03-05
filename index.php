@@ -1,3 +1,9 @@
+
+<?php 
+session_start();  
+$connect = mysqli_connect("localhost", "root", "", "product_details");  
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -7,6 +13,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Oswald:400,500,600,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700,700i" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 	<link rel="stylesheet" href="css/icomoon.css">
 	<link rel="stylesheet" href="css/jquery.formstyler.css">
 	<link rel="stylesheet" href="css/jquery.formstyler.theme.css">
@@ -15,6 +22,7 @@
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 			
 </head>
+
 <body>
 		
 <div class="main-wrapper">
@@ -267,86 +275,85 @@
 				<a href="" class="profile-menu__link">
 					<span class="basket">
 						<span class="icon-bag"></span>
-						<span class="badge">3</span>
+						<span class="badge"><?php if(isset($_SESSION["shopping_cart"])) { echo count($_SESSION["shopping_cart"]); } else { echo '0'; } ?></span>
 					</span>
-					<span class="b-price">$369</span>
+					<span class="b-price">$ 397</span>
 				</a>
-				<div class="dropdown-content">
-					<div class="cart">
+
+				<div id="cart" class="dropdown-content">
+					<div id="order-table" class="cart">
+						<ul class="cart-list">
+							<!--
+							<li class="cart-list__item">
+								<div class="cart-list__img">
+									<a href="#"></a>
+								</div>
+								<div class="cart-list__info">
+									<h6 class="product__title"><a href="#"></a></h6>
+									<div class="cart-list__details">
+										<span class="price"></span>
+										<span class="product__details">
+
+										</span>
+									</div>
+								</div>
+								<div class="cart-list__delete">
+									<a href="" class="js-remove-cart">
+										
+									</a>
+								</div>
+							</li>
+							-->
+						</ul> 
+						<?php 
+						if(!empty($_SESSION["shopping_cart"]))
+						{
+							$total = 0;
+							foreach($_SESSION["shopping_cart"] as $keys => $values)
+							{
+						?>
+
 						<ul class="cart-list">
 							<li class="cart-list__item">
 								<div class="cart-list__img">
-									<a href="#"><img src="img/kobe_8.png" alt=""></a>
+									<a href="#"><img src="<?php echo $values["product_image"]; ?>" alt=""></a>
 								</div>
 								<div class="cart-list__info">
-									<h6 class="product__title"><a href="#">Nike Kobe 8</a></h6>
+									<h6 class="product__title"><a href="#"><?php echo $values["product_name"]; ?></a></h6>
 									<div class="cart-list__details">
-										<span class="price">$125</span>
+										<span class="price">$ <?php echo $values["product_price"]; ?></span>
 										<span class="product__details">
-											<span>S</span> • 
-											<span>Black</span> • 
-											<span>1 pcs</span>
+
 										</span>
 									</div>
 								</div>
 								<div class="cart-list__delete">
-									<a href="" class="js-remove-cart">
-										<span class="icon-close"><span class="path1"></span></span>
-									</a>
+									<!--<a href="" class="js-remove-cart">-->
+										<button name="delete" class="icon-close delete" id="<?php echo $values["product_id"]; ?>"><span class="path1"></span></button>
+									<!--</a>-->
 								</div>
 							</li>
-							<li class="cart-list__item">
-								<div class="cart-list__img">
-									<a href="#"><img src="img/kd_6.png" alt=""></a>
-								</div>
-								<div class="cart-list__info">
-									<h6 class="product__title"><a href="#">Nike KD VI
-									</a></h6>
-									<div class="cart-list__details">
-										<span class="price price--danger">$79</span>
-										<span class="product__details">
-											<span>XXL</span> • 
-											<span>White</span> • 
-											<span>3 pcs</span>
-										</span>
-									</div>
-								</div>
-								<div class="cart-list__delete">
-									<a href="" class="js-remove-cart">
-										<span class="icon-close"><span class="path1"></span></span>
-									</a>
-								</div>
-							</li>
-							<li class="cart-list__item">
-								<div class="cart-list__img">
-									<a href="#"><img src="img/jordan_11_retro.png" alt=""></a>
-								</div>
-								<div class="cart-list__info">
-									<h6 class="product__title"><a href="#">Jordan 11 Retro</a></h6>
-									<div class="cart-list__details">
-										<span class="price">$165</span>
-										<span class="product__details">
-											<span>M</span> • 
-											<span>Blue</span> • 
-											<span>89 pcs</span>
-										</span>
-									</div>
-								</div>
-								<div class="cart-list__delete">
-									<a href="" class="js-remove-cart">
-										<span class="icon-close"><span class="path1"></span></span>
-									</a>
-								</div>
-							</li>
-						</ul>
+						</ul> 
+
+						<?php
+								$total = $total + $values["product_price"];
+							}
+						?>
 						<div class="cart-footer">
 							<span class="total">Total</span>
-							<span class="price">$369</span>
+							<span class="price">$ <?php echo number_format($total); ?></span>
 							<span class="btn">Check Out</span>
 						</div>
-					</div>
+						<?php
+						}
+						?>
+					</div>    
 				</div>
-			</li>
+			</li>	
+
+			
+
+			
 			<li class="profile-menu__item dropdown dropdown--right dropdown--white">
 				<a href="#" class="profile-menu__link">
 					<span class="icon-user"></span>
@@ -564,486 +571,95 @@
 				<div class="content">
 					<div class="box-tab-cont">
 						<div class="tab-cont " id="tab_1">
-							<div class="box-product">
-								<div class="product product--horizontal">
-
-									<div class="product__img">
-										<img src="img/kobe-mr_mini.png" alt="">						
+							<div class="box-product" id="order_table">
+								<?php
+									$query = "SELECT * FROM products ORDER BY id ASC";
+									$result = mysqli_query($connect, $query);
+									while($row = mysqli_fetch_array($result))
+									{
+									?>
+									<div class="product product--horizontal">
+										<div class="product__img">
+											<img src="<?php echo $row["image_mini"]; ?>" alt="">						
+										</div>
+										<div class="product__content">
+											<h6 class="product__title"><a href="#"><?php echo $row["pname"]; ?></a></h6>
+											<span class="product__category">Shoes</span>
+										</div>
+										
+										<div class="product__footer sale">
+											<span class="price">$ <?php echo $row["price"]; ?></span>
+											<span class="pbadge"><img src="img/sale.png" alt=""></span>
+											<span class="discount">$140</span>
+										</div>
+										<div class="product__card">
+											<select class="styler">
+												<option value="">Size</option>
+												<option value="">S</option>
+												<option value="">M</option>
+												<option value="">L</option>
+											</select>
+											<input type="button" name="add_to_cart" id="<?php echo $row["id"]; ?>"  class="btn" value="Add to Cart" />
+											<br>
+											<a href="#" class="favourite">
+												<span class="icon icon-heart-plus"></span>
+												Add to wishlist
+											</a>
+										</div>
 									</div>
-									<div class="product__content">
-										<h6 class="product__title"><a href="#">Nike Kobe Mamba Rage</a></h6>
-										<span class="product__category">Shoes</span>
-									</div>
-									
-									<div class="product__footer sale">
-										<span class="price">$105</span>
-										<span class="pbadge"><img src="img/sale.png" alt=""></span>
-										<span class="discount">$140</span>
-									</div>
-									<div class="product__card">
-										<select class="styler">
-											<option value="">Size</option>
-											<option value="">S</option>
-											<option value="">M</option>
-											<option value="">L</option>
-										</select>
-										<a href="#" class="btn">Add to cart</a>
-										<br>
-										<a href="#" class="favourite">
-											<span class="icon icon-heart-plus"></span>
-											Add to wishlist
-										</a>
-									</div>
-
-								</div>
-								<div class="product product--horizontal">
-
-									<div class="product__img">
-										<img src="img/kobe_11_mini.png" alt="">						
-									</div>
-									<div class="product__content">
-										<h6 class="product__title"><a href="#">Nike Kobe 11</a></h6>
-										<span class="product__category">Shoes</span>
-									</div>
-									
-									<div class="product__footer sale">
-										<span class="price">$135</span>
-										<span class="pbadge"><img src="img/hit.png" alt=""></span>			
-									</div>
-									<div class="product__card">
-										<select class="styler">
-											<option value="">Size</option>
-											<option value="">S</option>
-											<option value="">M</option>
-											<option value="">L</option>
-										</select>
-										<a href="#" class="btn">Add to cart</a>
-										<br>
-										<a href="#" class="favourite">
-											<span class="icon icon-heart-plus"></span>
-											Add to wishlist
-										</a>
-									</div>
-
-								</div>
-								<div class="product product--horizontal">
-
-									<div class="product__img">
-										<img src="img/kobe_8_mini.png" alt="">						
-									</div>
-									<div class="product__content">
-										<h6 class="product__title"><a href="#">Nike Kobe 8</a></h6>
-										<span class="product__category">Shoes</span>
-									</div>
-									
-									<div class="product__footer sale">
-										<span class="price">$105</span>										
-									</div>
-									<div class="product__card">
-										<select class="styler">
-											<option value="">Size</option>
-											<option value="">S</option>
-											<option value="">M</option>
-											<option value="">L</option>
-										</select>
-										<a href="#" class="btn">Add to cart</a>
-										<br>
-										<a href="#" class="favourite">
-											<span class="icon icon-heart-plus"></span>
-											Add to wishlist
-										</a>
-									</div>
-
-								</div>
-								<div class="product product--horizontal">
-
-									<div class="product__img">
-										<img src="img/kobe_7_mini.png" alt="">						
-									</div>
-									<div class="product__content">
-										<h6 class="product__title"><a href="#">Nike Kobe 7</a></h6>
-										<span class="product__category">Shoes</span>
-									</div>
-									
-									<div class="product__footer sale">
-										<span class="price">$118</span>										
-									</div>
-									<div class="product__card">
-										<select class="styler">
-											<option value="">Size</option>
-											<option value="">S</option>
-											<option value="">M</option>
-											<option value="">L</option>
-										</select>
-										<a href="#" class="btn">Add to cart</a>
-										<br>
-										<a href="#" class="favourite">
-											<span class="icon icon-heart-plus"></span>
-											Add to wishlist
-										</a>
-									</div>
-
-								</div>
-								<div class="product product--horizontal">
-
-									<div class="product__img">
-										<img src="img/kobe_10_mini.png" alt="">						
-									</div>
-									<div class="product__content">
-										<h6 class="product__title"><a href="#">Nike Kobe 10</a></h6>
-										<span class="product__category">Shoes</span>
-									</div>
-									
-									<div class="product__footer sale">
-										<span class="price">$127</span>										
-									</div>
-									<div class="product__card">
-										<select class="styler">
-											<option value="">Size</option>
-											<option value="">S</option>
-											<option value="">M</option>
-											<option value="">L</option>
-										</select>
-										<a href="#" class="btn">Add to cart</a>
-										<br>
-										<a href="#" class="favourite">
-											<span class="icon icon-heart-plus"></span>
-											Add to wishlist
-										</a>
-									</div>
-
-								</div>
-								<div class="product product--horizontal">
-
-									<div class="product__img">
-										<img src="img/hyper_17_low_mini.png" alt="">						
-									</div>
-									<div class="product__content">
-										<h6 class="product__title"><a href="#">Nike Hyperdunk 2017 Low</a></h6>
-										<span class="product__category">Shoes</span>
-									</div>
-									
-									<div class="product__footer sale">
-										<span class="price">$115</span>
-										<span class="pbadge"><img src="img/hit.png" alt=""></span>
-									</div>
-									<div class="product__card">
-										<select class="styler">
-											<option value="">Size</option>
-											<option value="">S</option>
-											<option value="">M</option>
-											<option value="">L</option>
-										</select>
-										<a href="#" class="btn">Add to cart</a>
-										<br>
-										<a href="#" class="favourite">
-											<span class="icon icon-heart-plus"></span>
-											Add to wishlist
-										</a>
-									</div>
-
-								</div>
-								<div class="product product--horizontal">
-
-									<div class="product__img">
-										<img src="img/lebron_15_mini.png" alt="">						
-									</div>
-									<div class="product__content">
-										<h6 class="product__title"><a href="#">Nike Lebron XV</a></h6>
-										<span class="product__category">Shoes</span>
-									</div>
-									
-									<div class="product__footer sale">
-										<span class="price">$145</span>
-										<span class="pbadge"><img src="img/new.png" alt=""></span>									
-									</div>
-									<div class="product__card">
-										<select class="styler">
-											<option value="">Size</option>
-											<option value="">S</option>
-											<option value="">M</option>
-											<option value="">L</option>
-										</select>
-										<a href="#" class="btn">Add to cart</a>
-										<br>
-										<a href="#" class="favourite">
-											<span class="icon icon-heart-plus"></span>
-											Add to wishlist
-										</a>
-									</div>
-
-								</div>
-								<div class="product product--horizontal">
-
-									<div class="product__img">
-										<img src="img/kd_6_mini.png" alt="">						
-									</div>
-									<div class="product__content">
-										<h6 class="product__title"><a href="#">Nike KD VI</a></h6>
-										<span class="product__category">Shoes</span>
-									</div>
-									
-									<div class="product__footer sale">
-										<span class="price">$79</span>
-										<span class="pbadge"><img src="img/sale.png" alt=""></span>
-										<span class="discount">$105</span>
-									</div>
-									<div class="product__card">
-										<select class="styler">
-											<option value="">Size</option>
-											<option value="">S</option>
-											<option value="">M</option>
-											<option value="">L</option>
-										</select>
-										<a href="#" class="btn">Add to cart</a>
-										<br>
-										<a href="#" class="favourite">
-											<span class="icon icon-heart-plus"></span>
-											Add to wishlist
-										</a>
-									</div>
-
-								</div>
-								<div class="product product--horizontal">
-
-									<div class="product__img">
-										<img src="img/jordan_11_retro_mini.png" alt="">						
-									</div>
-									<div class="product__content">
-										<h6 class="product__title"><a href="#">Jordan 11 Retro</a></h6>
-										<span class="product__category">Shoes</span>
-									</div>
-									
-									<div class="product__footer sale">
-										<span class="price">$165</span>
-										<span class="pbadge"><img src="img/hit.png" alt=""></span>
-									</div>
-									<div class="product__card">
-										<select class="styler">
-											<option value="">Size</option>
-											<option value="">S</option>
-											<option value="">M</option>
-											<option value="">L</option>
-										</select>
-										<a href="#" class="btn">Add to cart</a>
-										<br>
-										<a href="#" class="favourite">
-											<span class="icon icon-heart-plus"></span>
-											Add to wishlist
-										</a>
-									</div>
-
-								</div>
+									<input type="hidden" name="hidden_name" id="name<?php echo $row["id"]; ?>" value="<?php echo $row["pname"]; ?>" />  
+									<input type="hidden" name="hidden_price" id="price<?php echo $row["id"]; ?>" value="<?php echo $row["price"]; ?>" />
+									<input type="hidden" name="hidden_image" id="image<?php echo $row["id"]; ?>" value="<?php echo $row["image"]; ?>" />
+								<?php	
+									}
+								?>
 							</div>
 						</div>
 						<div class="tab-cont hide" id="tab_2">
-							<div class="box-product">
-								<div class="product">
-									<h6 class="product__title"><a href="#">Nike Kobe Mamba Rage</a></h6>
-									<div class="product__img">
-										<img src="img/kobe-mr.png" alt="">
-										<div class="product__card">
-											<select class="styler">
-												<option value="">Size</option>
-												<option value="">S</option>
-												<option value="">M</option>
-												<option value="">L</option>
-											</select>
-											<a href="#" class="btn">Add to cart</a>
-											<a href="#" class="favourite">
-												<span class="icon icon-heart-plus"></span>
-												Add to wishlist
-											</a>
+							<div class="box-product" id="order_table">
+								
+								<?php
+										$query = "SELECT * FROM products ORDER BY id ASC";
+										$result = mysqli_query($connect, $query);
+										while($row = mysqli_fetch_array($result))
+										{
+										?>
+										<div class="product">
+											<div class="product__img">
+												<img src="<?php echo $row["image"]; ?>" alt="">						
+											</div>
+											<div class="product__content">
+												<h6 class="product__title"><a href="#"><?php echo $row["pname"]; ?></a></h6>
+												<span class="product__category">Shoes</span>
+											</div>
+											
+											<div class="product__footer sale">
+												<span class="price">$ <?php echo $row["price"]; ?></span>
+												<span class="pbadge"><img src="img/sale.png" alt=""></span>
+												<span class="discount">$140</span>
+											</div>
+											<div class="product__card">
+												<select class="styler">
+													<option value="">Size</option>
+													<option value="">S</option>
+													<option value="">M</option>
+													<option value="">L</option>
+												</select>
+												<input type="button" name="add_to_cart" id="<?php echo $row["id"]; ?>"  class="btn" value="Add to Cart" />
+												<br>
+												<a href="#" class="favourite">
+													<span class="icon icon-heart-plus"></span>
+													Add to wishlist
+												</a>
+											</div>
 										</div>
-									</div>
-									<div class="product__footer sale">
-										<span class="pbadge"><img src="img/sale.png" alt=""></span>
-										<span class="price">$105</span>
-										<span class="discount">$140</span>
-									</div>
-								</div>
-								<div class="product">
-									<h6 class="product__title"><a href="#">Nike Kobe 11</a></h6>
-									<div class="product__img">
-										<img src="img/kobe_11.png" alt="">
-										<div class="product__card">
-											<select class="styler">
-												<option value="">Size</option>
-												<option value="">S</option>
-												<option value="">M</option>
-												<option value="">L</option>
-											</select>
-											<a href="#" class="btn">Add to cart</a>
-											<a href="#" class="favourite">
-												<span class="icon icon-heart-plus"></span>
-												Add to wishlist
-											</a>
-										</div>
-									</div>
-									<div class="product__footer hit">
-										<span class="pbadge"><img src="img/hit.png" alt=""></span>
-										<span class="price">$135</span>
-									</div>
-								</div>
-								<div class="product">
-									<h6 class="product__title"><a href="#">Nike Kobe 8</a></h6>
-									<div class="product__img">
-										<img src="img/kobe_8.png" alt="">
-										<div class="product__card">
-											<select class="styler">
-												<option value="">Size</option>
-												<option value="">S</option>
-												<option value="">M</option>
-												<option value="">L</option>
-											</select>
-											<a href="#" class="btn">Add to cart</a>
-											<a href="#" class="favourite">
-												<span class="icon icon-heart-plus"></span>
-												Add to wishlist
-											</a>
-										</div>
-									</div>
-									<div class="product__footer">
-										<span class="price">$125</span>
-									</div>
-								</div>
-								<div class="product">
-									<h6 class="product__title"><a href="#">Nike Kobe 7</a></h6>
-									<div class="product__img">
-										<img src="img/kobe_7.png" alt="">
-										<div class="product__card">
-											<select class="styler">
-												<option value="">Size</option>
-												<option value="">S</option>
-												<option value="">M</option>
-												<option value="">L</option>
-											</select>
-											<a href="#" class="btn">Add to cart</a>
-											<a href="#" class="favourite">
-												<span class="icon icon-heart-plus"></span>
-												Add to wishlist
-											</a>
-										</div>
-									</div>
-									<div class="product__footer">
-										<span class="price">$118</span>
-									</div>
-								</div>
-								<div class="product">
-									<h6 class="product__title"><a href="#">Nike Kobe 10</a></h6>
-									<div class="product__img">
-										<img src="img/kobe_10.png" alt="">
-										<div class="product__card">
-											<select class="styler">
-												<option value="">Size</option>
-												<option value="">S</option>
-												<option value="">M</option>
-												<option value="">L</option>
-											</select>
-											<a href="#" class="btn">Add to cart</a>
-											<a href="#" class="favourite">
-												<span class="icon icon-heart-plus"></span>
-												Add to wishlist
-											</a>
-										</div>
-									</div>
-									<div class="product__footer">
-										<span class="price">$127</span>
-									</div>
-								</div>
-								<div class="product">
-									<h6 class="product__title"><a href="#">Nike Hyperdunk 2017 Low</a></h6>
-									<div class="product__img">
-										<img src="img/hyper_17_low.png" alt="">
-										<div class="product__card">
-											<select class="styler">
-												<option value="">Size</option>
-												<option value="">S</option>
-												<option value="">M</option>
-												<option value="">L</option>
-											</select>
-											<a href="#" class="btn">Add to cart</a>
-											<a href="#" class="favourite">
-												<span class="icon icon-heart-plus"></span>
-												Add to wishlist
-											</a>
-										</div>
-									</div>
-									<div class="product__footer hit">
-										<span class="pbadge"><img src="img/hit.png" alt=""></span>
-										<span class="price">$115</span>
-									</div>
-								</div>
-								<div class="product">
-									<h6 class="product__title"><a href="#">Nike Lebron XV</a></h6>
-									<div class="product__img">
-										<img src="img/lebron_15.png" alt="">
-										<div class="product__card">
-											<select class="styler">
-												<option value="">Size</option>
-												<option value="">S</option>
-												<option value="">M</option>
-												<option value="">L</option>
-											</select>
-											<a href="#" class="btn">Add to cart</a>
-											<a href="#" class="favourite">
-												<span class="icon icon-heart-plus"></span>
-												Add to wishlist
-											</a>
-										</div>
-									</div>
-									<div class="product__footer new">
-										<span class="pbadge"><img src="img/new.png" alt=""></span>
-										<span class="price">$145</span>
-									</div>
-								</div>
-								<div class="product">
-									<h6 class="product__title"><a href="#">Nike KD VI</a></h6>
-									<div class="product__img">
-										<img src="img/kd_6.png" alt="">
-										<div class="product__card">
-											<select class="styler">
-												<option value="">Size</option>
-												<option value="">S</option>
-												<option value="">M</option>
-												<option value="">L</option>
-											</select>
-											<a href="#" class="btn">Add to cart</a>
-											<a href="#" class="favourite">
-												<span class="icon icon-heart-plus"></span>
-												Add to wishlist
-											</a>
-										</div>
-									</div>
-									<div class="product__footer sale">
-										<span class="pbadge"><img src="img/sale.png" alt=""></span>
-										<span class="price">$79</span>
-										<span class="discount">$105</span>
-									</div>
-								</div>
-								<div class="product">
-									<h6 class="product__title"><a href="#">Jordan 11 Retro</a></h6>
-									<div class="product__img">
-										<img src="img/jordan_11_retro.png" alt="">
-										<div class="product__card">
-											<select class="styler">
-												<option value="">Size</option>
-												<option value="">S</option>
-												<option value="">M</option>
-												<option value="">L</option>
-											</select>
-											<a href="#" class="btn">Add to cart</a>
-											<a href="#" class="favourite">
-												<span class="icon icon-heart-plus"></span>
-												Add to wishlist
-											</a>
-										</div>
-									</div>
-									<div class="product__footer hit">
-										<span class="pbadge"><img src="img/hit.png" alt=""></span>
-										<span class="price">$165</span>
-									</div>
-								</div>
+										<input type="hidden" name="hidden_name" id="name<?php echo $row["id"]; ?>" value="<?php echo $row["pname"]; ?>" />  
+										<input type="hidden" name="hidden_price" id="price<?php echo $row["id"]; ?>" value="<?php echo $row["price"]; ?>" />
+										<input type="hidden" name="hidden_image" id="image<?php echo $row["id"]; ?>" value="<?php echo $row["image"]; ?>" />
+									<?php	
+										}
+									?>
+								
 							</div>
 						</div>
 					</div>
@@ -1064,6 +680,7 @@
 	
 </div>
 
+<script src="js/addToCart.js"></script>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/jquery.formstyler.min.js"></script>
 <script src="js/custom.js"></script>
