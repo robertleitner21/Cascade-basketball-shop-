@@ -35,12 +35,12 @@ $(function(){
         max: 500,
         values: [ 75, 300 ],
         slide: function( event, ui ) {
-          $( "#amount" ).val( "$" + ui.values[ 0 ] );
-          $( "#amount1" ).val( "$" + ui.values[ 1 ] );
+          $( "#price_min" ).val( "$" + ui.values[ 0 ] );
+          $( "#price_max" ).val( "$" + ui.values[ 1 ] );
         }
       });
-      $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) );
-      $( "#amount1" ).val( "$" + $( "#slider-range" ).slider( "values", 1 ) );
+      $( "#price_min" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) );
+      $( "#price_max" ).val( "$" + $( "#slider-range" ).slider( "values", 1 ) );
 
       $('.dropdown-content__title').click(function(){
             $(this).toggleClass('d-open'); 

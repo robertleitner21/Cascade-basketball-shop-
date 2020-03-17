@@ -51,7 +51,7 @@
                 if($values["product_id"] == $_POST["product_id"])
                 {
                     unset($_SESSION["shopping_cart"][$keys]);
-                    $message = '<label class="text-success">Product Removed</label>';
+                    //$message = '<label class="text-success">Product Removed</label>';
                 }
             }
         }
@@ -65,34 +65,27 @@
             {
                 $order_table .= '
                     '.$message.'
-                    <body>
-                        <div class="main-wrapper">
-                            <header class="header">
-                                <ul class="profile-menu">
-                                    <li class="profile-menu__item dropdown dropdown--right dropdown--white">
-                                        <div class="dropdown-content">
-                                            <div class="cart">
-                                                <ul class="cart-list">
-                                                    <li class="cart-list__item">
-                                                        <div class="cart-list__img">
-                                                            <a href="#"><img src="'.$values["product_image"].'" alt=""></a>
-                                                        </div>
-                                                        <div class="cart-list__info">
-                                                            <h6 class="product__title"><a href="#">'.$values["product_name"].'</a></h6>
-                                                            <div class="cart-list__details">
-                                                                <span class="price">'.number_format($values["product_price"]).'</span>
-                                                                <span class="product__details">
+                    <ul class="cart-list">
+                        <li class="cart-list__item">
+                            <div class="cart-list__img">
+                                <a href="#"><img src="'.$values["product_image"].'" alt=""></a>
+                            </div>
+                            <div class="cart-list__info">
+                                <h6 class="product__title"><a href="#">'.$values["product_name"].'</a></h6>
+                                <div class="cart-list__details">
+                                    <span class="price">$ '.number_format($values["product_price"]).'</span>
+                                    <span class="product__details">
 
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cart-list__delete">
-                                                            <!--<a href="" class="js-remove-cart">-->
-                                                                <button name="delete" class="icon-close delete" id="'.$values["product_id"].'" ><span class="path1"></span></button>
-                                                            <!--</a>-->
-                                                        </div>
-                                                    </li>
-                                                </ul>                       
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="cart-list__delete">
+                                <!--<a href="" class="js-remove-cart">-->
+                                    <button name="delete" class="icon-close delete" id="'.$values["product_id"].'" ><span class="path1"></span></button>
+                                <!--</a>-->
+                            </div>
+                        </li>
+                    </ul>                       
                 ';
 
                 $total = $total + $values["product_price"];
@@ -100,21 +93,12 @@
             $order_table .= '
             <div class="cart-footer">
                 <span class="total">Total</span>
-                <span class="price">'.number_format($total).'</span>
-                <span class="btn">Check Out</span>
+                <span class="price">$ '.number_format($total).'</span>
+                <span class="btn"><a href="#">Check Out</a></span>
             </div>
             ';
         }
 
-        $order_table .= '
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </header>
-                </div>
-            </body>
-        ';
         $output = array(
             'order_table'     =>  $order_table,
             'cart_item'       =>  count($_SESSION["shopping_cart"])

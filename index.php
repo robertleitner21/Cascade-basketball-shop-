@@ -4,6 +4,8 @@ session_start();
 $connect = mysqli_connect("localhost", "root", "", "product_details");  
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -282,8 +284,9 @@ $connect = mysqli_connect("localhost", "root", "", "product_details");
 
 				<div id="cart" class="dropdown-content">
 					<div id="order-table" class="cart">
+						
+						<!--
 						<ul class="cart-list">
-							<!--
 							<li class="cart-list__item">
 								<div class="cart-list__img">
 									<a href="#"></a>
@@ -303,8 +306,9 @@ $connect = mysqli_connect("localhost", "root", "", "product_details");
 									</a>
 								</div>
 							</li>
-							-->
-						</ul> 
+						</ul>
+						-->
+						 
 						<?php 
 						if(!empty($_SESSION["shopping_cart"]))
 						{
@@ -312,7 +316,7 @@ $connect = mysqli_connect("localhost", "root", "", "product_details");
 							foreach($_SESSION["shopping_cart"] as $keys => $values)
 							{
 						?>
-
+						
 						<ul class="cart-list">
 							<li class="cart-list__item">
 								<div class="cart-list__img">
@@ -342,7 +346,7 @@ $connect = mysqli_connect("localhost", "root", "", "product_details");
 						<div class="cart-footer">
 							<span class="total">Total</span>
 							<span class="price">$ <?php echo number_format($total); ?></span>
-							<span class="btn">Check Out</span>
+							<span class="btn"><a href="#">Check Out</a></span>
 						</div>
 						<?php
 						}
@@ -458,38 +462,57 @@ $connect = mysqli_connect("localhost", "root", "", "product_details");
 						</div>
 						<div class="accordion__body">
 							<ul class="check-list">
+
+								<?php
+
+
+								include('database_connection(pdo).php');
+
+
+								$query1 = "SELECT DISTINCT(product_category) FROM products ORDER BY id DESC";
+								$statement1 = $connect1->prepare($query1);
+								$statement1->execute();
+								$result1 = $statement1->fetchAll();
+								foreach($result1 as $row1)
+								{
+								?>
+								<li class="check-list__item">
+									<input type="checkbox" class="styler" id="check-list1" value="<?php echo $row1['product_category']; ?>">
+									<label for="check-list1" class="check-list__text"><?php echo $row1['product_category']; ?></label>
+								</li>
+								<?php
+								}
+								?>
+								<!--
 								<li class="check-list__item">
 									<input type="checkbox" class="styler" id="check-list1">
-									<label for="check-list1" class="check-list__text">Shoes</label>
+									<label for="check-list1" class="check-list__text">Bags</label>
 								</li>
 								<li class="check-list__item">
 									<input type="checkbox" class="styler" id="check-list1">
-									<label for=""check-list1 class="check-list__text">Bags</label>
+									<label for="check-list1" class="check-list__text">T-shirts</label>
 								</li>
 								<li class="check-list__item">
 									<input type="checkbox" class="styler" id="check-list1">
-									<label for="" check-list1class="check-list__text">T-shirts</label>
+									<label for="check-list1" class="check-list__text">Pants</label>
 								</li>
 								<li class="check-list__item">
 									<input type="checkbox" class="styler" id="check-list1">
-									<label for="" check-list1class="check-list__text">Pants</label>
+									<label for="check-list1" class="check-list__text">Socks</label>
 								</li>
 								<li class="check-list__item">
 									<input type="checkbox" class="styler" id="check-list1">
-									<label for="" check-list1class="check-list__text">Socks</label>
+									<label for="check-list1" class="check-list__text">Sleeves</label>
 								</li>
 								<li class="check-list__item">
 									<input type="checkbox" class="styler" id="check-list1">
-									<label for="" check-list1class="check-list__text">Sleeves</label>
+									<label for="check-list1" class="check-list__text">Bandanas</label>
 								</li>
 								<li class="check-list__item">
 									<input type="checkbox" class="styler" id="check-list1">
-									<label for="" check-list1class="check-list__text">Bandanas</label>
+									<label for="check-list1" class="check-list__text">Snap-backs</label>
 								</li>
-								<li class="check-list__item">
-									<input type="checkbox" class="styler" id="check-list1">
-									<label for=""check-list1 class="check-list__text">Snap-backs</label>
-								</li>
+								-->
 							</ul>
 						</div>
 						<div class="accordion__head">
@@ -507,19 +530,19 @@ $connect = mysqli_connect("localhost", "root", "", "product_details");
 								</li>
 								<li class="check-list__item">
 									<input type="checkbox" class="styler" id="check-list1">
-									<label for="" check-list1class="check-list__text">Jordan Brand</label>
+									<label for="" check-list1 class="check-list__text">Jordan Brand</label>
 								</li>
 								<li class="check-list__item">
 									<input type="checkbox" class="styler" id="check-list1">
-									<label for="" check-list1class="check-list__text">Under Armour</label>
+									<label for="" check-list1 class="check-list__text">Under Armour</label>
 								</li>
 								<li class="check-list__item">
 									<input type="checkbox" class="styler" id="check-list1">
-									<label for="" check-list1class="check-list__text">Puma</label>
+									<label for="" check-list1 class="check-list__text">Puma</label>
 								</li>
 								<li class="check-list__item">
 									<input type="checkbox" class="styler" id="check-list1">
-									<label for="" check-list1class="check-list__text">Reebok</label>
+									<label for="" check-list1 class="check-list__text">Reebok</label>
 								</li>
 							</ul>
 						</div>
@@ -538,19 +561,19 @@ $connect = mysqli_connect("localhost", "root", "", "product_details");
 								</li>
 								<li class="check-list__item">
 									<input type="checkbox" class="styler" id="check-list1">
-									<label for="" check-list1class="check-list__text">M</label>
+									<label for="" check-list1 class="check-list__text">M</label>
 								</li>
 								<li class="check-list__item">
 									<input type="checkbox" class="styler" id="check-list1">
-									<label for="" check-list1class="check-list__text">XXL</label>
+									<label for="" check-list1 class="check-list__text">XXL</label>
 								</li>
 								<li class="check-list__item">
 									<input type="checkbox" class="styler" id="check-list1">
-									<label for="" check-list1class="check-list__text">L</label>
+									<label for="" check-list1 class="check-list__text">L</label>
 								</li>
 								<li class="check-list__item">
 									<input type="checkbox" class="styler" id="check-list1">
-									<label for="" check-list1class="check-list__text">XXXL</label>
+									<label for="" check-list 1class="check-list__text">XXXL</label>
 								</li>
 							</ul>
 						</div>
@@ -559,106 +582,46 @@ $connect = mysqli_connect("localhost", "root", "", "product_details");
 							<span class="icon-minus"></span></div>
 						<div class="accordion__body" style="display: none;">
 							<div id="slider-range"></div>
-							<input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-							<input type="text" id="amount1" readonly style="border:0; color:#f6931f; font-weight:bold;">
+							<input type="text" id="price_min" readonly style="border:0; color:#f6931f; font-weight:bold;">
+							<input type="text" id="price_max" readonly style="border:0; color:#f6931f; font-weight:bold;">
 						</div>
 						<div class="accordion__head">
 							<h5 class="accordion__title">Color</h5>
 							<span class="icon-minus"></span></div>
 						<div class="accordion__body" style="display: none;">22</div>
+						
+
+						<!--
+						<style>
+						#loading
+						{
+							text-align:center; 
+ 							background: url('loader.gif') no-repeat center; 
+ 							height: 150px;
+						}
+						</style>
+						-->
+
+
 					</div>
 				</aside>
 				<div class="content">
 					<div class="box-tab-cont">
 						<div class="tab-cont " id="tab_1">
 							<div class="box-product" id="order_table">
+								
 								<?php
-									$query = "SELECT * FROM products ORDER BY id ASC";
-									$result = mysqli_query($connect, $query);
-									while($row = mysqli_fetch_array($result))
-									{
-									?>
-									<div class="product product--horizontal">
-										<div class="product__img">
-											<img src="<?php echo $row["image_mini"]; ?>" alt="">						
-										</div>
-										<div class="product__content">
-											<h6 class="product__title"><a href="#"><?php echo $row["pname"]; ?></a></h6>
-											<span class="product__category">Shoes</span>
-										</div>
-										
-										<div class="product__footer sale">
-											<span class="price">$ <?php echo $row["price"]; ?></span>
-											<span class="pbadge"><img src="img/sale.png" alt=""></span>
-											<span class="discount">$140</span>
-										</div>
-										<div class="product__card">
-											<select class="styler">
-												<option value="">Size</option>
-												<option value="">S</option>
-												<option value="">M</option>
-												<option value="">L</option>
-											</select>
-											<input type="button" name="add_to_cart" id="<?php echo $row["id"]; ?>"  class="btn" value="Add to Cart" />
-											<br>
-											<a href="#" class="favourite">
-												<span class="icon icon-heart-plus"></span>
-												Add to wishlist
-											</a>
-										</div>
-									</div>
-									<input type="hidden" name="hidden_name" id="name<?php echo $row["id"]; ?>" value="<?php echo $row["pname"]; ?>" />  
-									<input type="hidden" name="hidden_price" id="price<?php echo $row["id"]; ?>" value="<?php echo $row["price"]; ?>" />
-									<input type="hidden" name="hidden_image" id="image<?php echo $row["id"]; ?>" value="<?php echo $row["image"]; ?>" />
-								<?php	
-									}
+									include('data_list_mini.php');
 								?>
+
 							</div>
 						</div>
 						<div class="tab-cont hide" id="tab_2">
 							<div class="box-product" id="order_table">
 								
 								<?php
-										$query = "SELECT * FROM products ORDER BY id ASC";
-										$result = mysqli_query($connect, $query);
-										while($row = mysqli_fetch_array($result))
-										{
-										?>
-										<div class="product">
-											<div class="product__img">
-												<img src="<?php echo $row["image"]; ?>" alt="">						
-											</div>
-											<div class="product__content">
-												<h6 class="product__title"><a href="#"><?php echo $row["pname"]; ?></a></h6>
-												<span class="product__category">Shoes</span>
-											</div>
-											
-											<div class="product__footer sale">
-												<span class="price">$ <?php echo $row["price"]; ?></span>
-												<span class="pbadge"><img src="img/sale.png" alt=""></span>
-												<span class="discount">$140</span>
-											</div>
-											<div class="product__card">
-												<select class="styler">
-													<option value="">Size</option>
-													<option value="">S</option>
-													<option value="">M</option>
-													<option value="">L</option>
-												</select>
-												<input type="button" name="add_to_cart" id="<?php echo $row["id"]; ?>"  class="btn" value="Add to Cart" />
-												<br>
-												<a href="#" class="favourite">
-													<span class="icon icon-heart-plus"></span>
-													Add to wishlist
-												</a>
-											</div>
-										</div>
-										<input type="hidden" name="hidden_name" id="name<?php echo $row["id"]; ?>" value="<?php echo $row["pname"]; ?>" />  
-										<input type="hidden" name="hidden_price" id="price<?php echo $row["id"]; ?>" value="<?php echo $row["price"]; ?>" />
-										<input type="hidden" name="hidden_image" id="image<?php echo $row["id"]; ?>" value="<?php echo $row["image"]; ?>" />
-									<?php	
-										}
-									?>
+									include('data_list.php');
+								?>
 								
 							</div>
 						</div>
@@ -684,6 +647,7 @@ $connect = mysqli_connect("localhost", "root", "", "product_details");
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/jquery.formstyler.min.js"></script>
 <script src="js/custom.js"></script>
+<script src="js/filter.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 </body>
