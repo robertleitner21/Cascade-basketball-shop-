@@ -1,7 +1,10 @@
-$(document).ready(function(data){
+//$(document).ready(function(data){
 
-    $(".btn").click(function(){
-        var product_id = $(this).attr("id");
+    //$(".btn").click(function(){
+    $(document).on("click", ".btn", function(e){
+        //var product_id = $(this).attr("id");
+        var product_id = e.target.id;
+        console.log(product_id);
         var product_name = $('#name' + product_id).val();
         var product_price = $('#price' + product_id).val();
         var product_image = $('#image' + product_id).val();
@@ -27,27 +30,29 @@ $(document).ready(function(data){
         });
     });
 
-    $(document).on("click", ".delete", function(){
-        var product_id = $(this).attr("id");
-        var action = "remove";
+    $(document).ready(function(data){
+        $(document).on("click", ".delete", function(){
+            var product_id = $(this).attr("id");
+            var action = "remove";
 
-        //if(confirm("Are you sure you want to remove this product?"))
-        //{
-            $.ajax({
-                 url:"action.php",
-                 method: "POST",
-                 dataType: "json",
-                 data:{product_id:product_id, action:action},
-                 success:function(data){
-                     $("#order-table.cart").html(data.order_table);
-                     $(".badge").text(data.cart_item);
-                 }
-            });
-        //}
-        //else 
-        //{
-        //    return false;
-        //}
+            //if(confirm("Are you sure you want to remove this product?"))
+            //{
+                $.ajax({
+                    url:"action.php",
+                    method: "POST",
+                    dataType: "json",
+                    data:{product_id:product_id, action:action},
+                    success:function(data){
+                        $("#order-table.cart").html(data.order_table);
+                        $(".badge").text(data.cart_item);
+                    }
+                });
+            //}
+            //else 
+            //{
+            //    return false;
+            //}
+        });
     });
 
-});
+//});

@@ -33,7 +33,7 @@ $(function(){
         range: true,
         min: 0,
         max: 500,
-        values: [ 75, 300 ],
+        values: [ 10, 150 ],
         slide: function( event, ui ) {
           $( "#price_min" ).val( "$" + ui.values[ 0 ] );
           $( "#price_max" ).val( "$" + ui.values[ 1 ] );

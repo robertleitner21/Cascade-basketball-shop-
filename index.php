@@ -477,7 +477,7 @@ $connect = mysqli_connect("localhost", "root", "", "product_details");
 								{
 								?>
 								<li class="check-list__item">
-									<input type="checkbox" class="styler" id="check-list1" value="<?php echo $row1['product_category']; ?>">
+									<input type="checkbox" class="styler common_selector category" id="check-list1" value="<?php echo $row1['product_category']; ?>">
 									<label for="check-list1" class="check-list__text"><?php echo $row1['product_category']; ?></label>
 								</li>
 								<?php
@@ -596,11 +596,12 @@ $connect = mysqli_connect("localhost", "root", "", "product_details");
 						#loading
 						{
 							text-align:center; 
- 							background: url('loader.gif') no-repeat center; 
+ 							background: url('img/loader.gif') no-repeat center; 
  							height: 150px;
 						}
 						</style>
 						-->
+					
 
 
 					</div>
